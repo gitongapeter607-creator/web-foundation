@@ -3,63 +3,78 @@ let notes = [
   { id: 2, text: "Finish the Day 3 assignment", category: "study" },
   { id: 3, text: "Email the project report to Grace", category: "work" },
   { id: 4, text: "Revise JavaScript arrays", category: "study" },
-  { id: 5, text: "Call mum", category: "personal" }
+  { id: 5, text: "Call mum", category: "personal" },
 ];
+ 
+const CATEGORIES = ["personal", "work", "study"];
 
 function searchNotes(word) {
-  return notes.filter(n => n.text.toLowerCase().includes(word.toLowerCase()));
+  const search = word.toLowerCase();
+  return notes.filter((note) => note.text.toLowerCase().includes(search));
 }
-
 function longestNote() {
   if (notes.length === 0) return null;
-  return notes.reduce((a, b) => a.text.length > b.text.length ? a : b);
+  let longest = notes[0];
+  for (const note of notes) {
+    if (note.text.length > longest.text.length) {
+      longest = note;
+    }
+  }
+  return longest;
 }
-
 function countByCategory() {
-  return notes.reduce((c, n) => {
-    c[n.category]++;
-    return c;
-  }, { personal: 0, work: 0, study: 0 });
+  const counts = { personal: 0, work: 0, study: 0 };
+  notes.forEach((note) => {
+    counts[note.category]++;
+  });
+  return counts;
 }
-
 function getSummary() {
-  let c = countByCategory();
-  return `${notes.length} notes: ${c.personal} personal, ${c.work} work, ${c.study} study.`;
+  const counts = countByCategory();
+  const word = notes.length === 1 ? "note" : "notes";
+  return (
+    `${notes.length} ${word}: ` +
+    `${counts.personal} personal, ${counts.work} work, ${counts.study} study.`
+  );
 }
-
 function isDuplicate(text) {
-  let clean = text.trim().replace(/\s+/g, " ").toLowerCase();
-  return notes.some(n => n.text.trim().replace(/\s+/g, " ").toLowerCase() === clean);
+  const cleaned = text.trim().toLowerCase();
+  return notes.some((note) => note.text.toLowerCase() === cleaned);
 }
-
 function addNote(text, category) {
-  if (text.length < 1 || text.length > 200) {
-    console.log("Invalid length");
+  const cleaned = text.trim();
+ 
+  if (cleaned.length === 0 || cleaned.length > 200) {
+    console.log("Rejected: a note must be 1-200 characters.");
     return false;
   }
-
-  if (isDuplicate(text)) {
-    console.log("Duplicate note");
+  if (isDuplicate(cleaned)) {
+    console.log(`Rejected: "${cleaned}" already exists.`);
     return false;
   }
-
-  if (!["personal", "work", "study"].includes(category)) {
-    console.log("Invalid category");
+  if (!CATEGORIES.includes(category)) {
+    console.log(`Rejected: "${category}" is not a valid category.`);
     return false;
   }
-
-  let id = notes.length ? Math.max(...notes.map(n => n.id)) + 1 : 1;
-  notes.push({ id, text, category });
-  console.log("Note added");
+ 
+  notes.push({ id: Date.now(), text: cleaned, category: category });
+  console.log(`Added: "${cleaned}" (${category})`);
   return true;
 }
-
-console.log(searchNotes("day"));
-console.log(longestNote());
+console.log(searchNotes("revise"));
+console.log(searchNotes("BREAD"));
+console.log(searchNotes("holiday"));
+ 
+console.log(longestNote().text);
+ 
 console.log(countByCategory());
 console.log(getSummary());
-console.log(isDuplicate("  CALL   MUM  "));
-console.log(addNote("Buy a new laptop", "personal"));
-console.log(addNote("BUY A NEW LAPTOP", "personal"));
-console.log(addNote("Learn Python", "coding"));
-console.log(notes);
+ 
+console.log(isDuplicate("  call MUM "));
+console.log(isDuplicate("Call dad"));
+ 
+console.log(addNote("Read chapter 4", "study"));
+console.log(addNote("call mum", "personal"));
+console.log(addNote("   ", "work"));
+console.log(addNote("Plan trip", "holiday"));
+console.log(getSummary());
