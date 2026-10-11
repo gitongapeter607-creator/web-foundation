@@ -1,0 +1,160 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  line-height: 1.5;
+  color: #1f2933;
+  background: #f4f6f8;
+}
+
+main {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+h1 {
+  margin-bottom: 4px;
+}
+
+h2 {
+  margin-top: 32px;
+  font-size: 1.25rem;
+}
+
+.intro {
+  margin-top: 0;
+  color: #52606d;
+}
+
+/* Form */
+
+.field {
+  margin-bottom: 16px;
+}
+
+label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 8px 10px;
+  font: inherit;
+  border: 1px solid #9aa5b1;
+  border-radius: 6px;
+  background: #ffffff;
+}
+
+input[type="text"]:focus,
+textarea:focus,
+button:focus-visible {
+  outline: 3px solid #7cb3f5;
+  outline-offset: 1px;
+}
+
+/* Buttons */
+
+button {
+  padding: 8px 16px;
+  font: inherit;
+  font-weight: 600;
+  color: #ffffff;
+  background: #2f6fdb;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  background: #2459b3;
+}
+
+button:disabled {
+  background: #9aa5b1;
+  cursor: not-allowed;
+}
+
+.delete-btn {
+  padding: 4px 12px;
+  background: #c0392b;
+}
+
+.delete-btn:hover:not(:disabled) {
+  background: #992d22;
+}
+
+/* Status messages */
+
+#status {
+  min-height: 1.5em;
+  margin: 16px 0;
+  padding: 0;
+}
+
+.status-loading,
+.status-success,
+.status-error {
+  padding: 10px 12px;
+  border-radius: 6px;
+  border-left: 5px solid;
+}
+
+.status-loading {
+  color: #1c4a8a;
+  background: #e8f0fb;
+  border-color: #2f6fdb;
+}
+
+.status-success {
+  color: #1e6b34;
+  background: #e6f4ea;
+  border-color: #2e9e4f;
+}
+
+.status-error {
+  color: #9b1c1c;
+  background: #fdecea;
+  border-color: #c0392b;
+}
+
+/* Notes list */
+
+#notes-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.note {
+  margin-bottom: 12px;
+  padding: 12px 16px;
+  background: #ffffff;
+  border: 1px solid #d9e0e6;
+  border-radius: 8px;
+}
+
+.note h3 {
+  margin: 0 0 4px;
+  font-size: 1.05rem;
+}
+
+.note p {
+  margin: 0 0 10px;
+  white-space: pre-line;
+}
+
+.empty {
+  padding: 16px;
+  color: #52606d;
+  text-align: center;
+  background: #ffffff;
+  border: 1px dashed #9aa5b1;
+  border-radius: 8px;
+}
