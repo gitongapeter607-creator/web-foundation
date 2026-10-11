@@ -1,85 +1,83 @@
 :root {
-  --bg: #f5f7fa;
+  --bg: #f4f6f8;
   --card: #ffffff;
-  --text: #1f2933;
-  --muted: #52606d;
-  --border: #cbd2d9;
-  --accent: #2563eb;
-  --accent-text: #ffffff;
-  --warning: #ea8a00;
-  --over: #d62828;
+  --text: #222222;
+  --border: #cccccc;
+  --accent: #0ba184;
 }
-
+ 
 body.dark {
-  --bg: #121820;
-  --card: #1b2430;
-  --text: #e6ebf1;
-  --muted: #9aa5b1;
-  --border: #3e4c59;
-  --accent: #5b9bff;
-  --accent-text: #0b1220;
-  --warning: #ffb347;
-  --over: #ff6b6b;
+  --bg: #121212;
+  --card: #1e1e1e;
+  --text: #eeeeee;
+  --border: #444444;
+  --accent: #34d3b1;
 }
-
-* { box-sizing: border-box; }
-
+ 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+ 
 body {
   margin: 0;
-  padding: 2rem 1rem;
-  font-family: system-ui, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
   background: var(--bg);
   color: var(--text);
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.3s ease, color 0.3s ease;
 }
-
+ 
 main {
-  max-width: 560px;
-  margin: 0 auto;
-  padding: 1.5rem;
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 24px;
   background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 12px;
 }
-
-h1 { margin-top: 0; }
-
+ 
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+ 
 label {
   display: block;
-  margin: 1rem 0 0.4rem;
-  font-weight: 600;
+  font-weight: bold;
+  margin-bottom: 6px;
 }
-
+ 
 textarea {
   width: 100%;
-  padding: 0.6rem;
-  font: inherit;
-  color: var(--text);
-  background: var(--bg);
+  padding: 12px;
   border: 1px solid var(--border);
-  border-radius: 6px;
-  resize: vertical;
-}
-
-textarea:focus-visible,
-button:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
-p { margin: 0.5rem 0; color: var(--muted); }
-
-button {
-  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
   font: inherit;
-  color: var(--accent-text);
+}
+ 
+.counters {
+  display: flex;
+  justify-content: space-between;
+  color: #888;
+}
+ 
+.warning {
+  color: #d97706;
+}
+ 
+.over {
+  color: #b91c1c;
+  font-weight: bold;
+}
+ 
+button {
   background: var(--accent);
+  color: white;
   border: none;
-  border-radius: 6px;
+  padding: 10px 18px;
+  border-radius: 8px;
   cursor: pointer;
 }
-
-#theme-toggle { float: right; margin-top: -3rem; }
-
-.warning { color: var(--warning); }
-.over { color: var(--over); font-weight: bold; }

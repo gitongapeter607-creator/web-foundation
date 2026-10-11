@@ -1,60 +1,72 @@
-const note = document.querySelector("#note-text");
+ const textArea = document.querySelector("#note-text");
 const charCount = document.querySelector("#char-count");
 const wordCount = document.querySelector("#word-count");
 const clearBtn = document.querySelector("#clear-btn");
 const themeBtn = document.querySelector("#theme-toggle");
-
-const LIMIT = 200;
+ 
+const MAX = 200;
 const WARN_AT = 180;
 const DRAFT_KEY = "note-draft";
-const THEME_KEY = "note-theme";
+const THEME_KEY = "theme";
 
-function updateCounts() {
-  const text = note.value;
-  const chars = text.length;
+function countWords(text) {
   const trimmed = text.trim();
-  const words = trimmed === "" ? 0 : trimmed.split(/\s+/).length;
-
-  charCount.textContent = `${chars} / ${LIMIT} characters`;
-  wordCount.textContent = `${words} ${words === 1 ? "word" : "words"}`;
-
-  charCount.classList.toggle("warning", chars > WARN_AT && chars <= LIMIT);
-  charCount.classList.toggle("over", chars > LIMIT);
+  if (trimmed === "") return 0;
+  return trimmed.split(/\s+/).length;
 }
-
+ 
+function updateCounts() {
+  const text = textArea.value;
+  const chars = text.length;
+  const words = countWords(text);
+ 
+  charCount.textContent = `${chars} / ${MAX} characters`;
+  wordCount.textContent = words === 1 ? "1 word" : `${words} words`;
+ 
+  charCount.classList.remove("warning", "over");
+  if (chars > MAX) {
+    charCount.classList.add("over");
+  } else if (chars > WARN_AT) {
+    charCount.classList.add("warning");
+  }
+}
+ 
+function saveDraft() {
+  localStorage.setItem(DRAFT_KEY, textArea.value);
+}
+ 
 function clearAll() {
-  note.value = "";
+  textArea.value = "";
   localStorage.removeItem(DRAFT_KEY);
   updateCounts();
-  note.focus();
+  textArea.focus();
 }
-
-function applyTheme(dark) {
-  document.body.classList.toggle("dark", dark);
-  themeBtn.textContent = dark ? "Light mode" : "Dark mode";
+ 
+function applyTheme(theme) {
+  const isDark = theme === "dark";
+  document.body.classList.toggle("dark", isDark);
+  themeBtn.textContent = isDark ? "Light mode" : "Dark mode";
 }
-
-note.addEventListener("input", () => {
+ 
+function toggleTheme() {
+  const newTheme = document.body.classList.contains("dark") ? "light" : "dark";
+  applyTheme(newTheme);
+  localStorage.setItem(THEME_KEY, newTheme);
+}
+ 
+textArea.addEventListener("input", () => {
   updateCounts();
-  localStorage.setItem(DRAFT_KEY, note.value);
+  saveDraft();
 });
-
-note.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    e.preventDefault();
-    clearAll();
-  }
+ 
+textArea.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") clearAll();
 });
-
+ 
 clearBtn.addEventListener("click", clearAll);
-
-themeBtn.addEventListener("click", () => {
-  const dark = !document.body.classList.contains("dark");
-  applyTheme(dark);
-  localStorage.setItem(THEME_KEY, dark ? "dark" : "light");
-});
-
-// On load: restore draft and theme
-note.value = localStorage.getItem(DRAFT_KEY) || "";
-applyTheme(localStorage.getItem(THEME_KEY) === "dark");
+themeBtn.addEventListener("click", toggleTheme);
+ 
+textArea.value = localStorage.getItem(DRAFT_KEY) || "";
+applyTheme(localStorage.getItem(THEME_KEY) || "light");
 updateCounts();
+ 
